@@ -23,34 +23,9 @@ import { database } from "../../../../firebase/firebase";
   dataIndex: 'usertype',
   key: 'usertype',
 }]
- //[{
-//   title: 'Name',
-//   dataIndex: 'name',
-// }, {
-//   title: 'Age',
-//   dataIndex: 'age',
-// }, {
-//   title: 'Address',
-//   dataIndex: 'address',
-// }];
-// const data = [{
-//   key: '1',
-//   name: 'John Brown',
-//   age: 32,
-//   address: 'New York No. 1 Lake Park',
-// }, {
-//   key: '2',
-//   name: 'Jim Green',
-//   age: 42,
-//   address: 'London No. 1 Lake Park',
-// }, {
-//   key: '3',
-//   name: 'Joe Black',
-//   age: 32,
-//   address: 'Sidney No. 1 Lake Park',
-// }];
 
-const Size = () => {
+
+const Fleetadmin = () => {
   const [users,setUsers] =  useState([])
 
   useEffect(()=>{
@@ -60,7 +35,7 @@ const Size = () => {
 
         allUsers.push({...user.val(),id:user.key});
       });
-      setUsers(()=>[...allUsers].filter(el=>el.usertype=="admin"))
+      setUsers(()=>[...allUsers].filter(el=>el.usertype=="fleetadmin"))
     })
   },[])
 
@@ -68,16 +43,13 @@ const Size = () => {
     console.log(users)
   },[users])
   return (
-    <>
-  
-    <Card title="Admin">
+    <Card title="FleedAdmin">
       {/* <h4>Middle size table</h4> */}
       <Table className="gx-table-responsive" columns={columns} dataSource={users} size="middle"/>
       {/* <h4>Small size table</h4>
       <Table className="gx-table-responsive" columns={columns} dataSource={data} size="small"/> */}
     </Card>
-    </>
   );
 };
 
-export default Size;
+export default Fleetadmin;

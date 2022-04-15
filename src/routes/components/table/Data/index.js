@@ -15,7 +15,7 @@ import FixColumn from "./FixColumn";
 const DataTable = () => {
   return (
     <Row>
-      <Col span={24}>
+      {/* <Col span={24}>
         <FixHeader/>
       </Col>
       <Col span={24}>
@@ -26,11 +26,11 @@ const DataTable = () => {
       </Col>
       <Col span={24}>
         <Dynamic/>
-      </Col>
+      </Col> */}
       <Col span={24}>
         <CustomSelection/>
       </Col>
-      <Col span={24}>
+      {/* <Col span={24}>
         <ResetFilter/>
       </Col>
       <Col span={24}>
@@ -41,7 +41,7 @@ const DataTable = () => {
       </Col>
       <Col span={24}>
         <FixColumn/>
-      </Col>
+      </Col> */}
     </Row>
   );
 };

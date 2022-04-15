@@ -1,84 +1,60 @@
 import React from "react";
+import { useEffect, useState } from "react";
 import {Card, Table} from "antd";
-
+import { database } from "../../../../firebase/firebase";
 const columns = [{
   title: 'Name',
-  dataIndex: 'name',
-}, {
-  title: 'Age',
-  dataIndex: 'age',
-}, {
-  title: 'Address',
-  dataIndex: 'address',
+  dataIndex: 'firstName',
+  key: 'firstName',
+  render: text => <span className="gx-link">{text}</span>,
+},
+{
+  title: 'LastName',
+  dataIndex: 'lastName',
+  key: 'lastName',
+},
+{
+  title: 'Email',
+  dataIndex: 'email',
+  key: 'email',
+},
+{
+  title: 'Usertype',
+  dataIndex: 'usertype',
+  key: 'usertype',
 }];
+// rowSelection object indicates the need for row selection
 
-const data = [];
-for (let i = 0; i < 46; i++) {
-  data.push({
-    key: i,
-    name: `Edward King ${i}`,
-    age: 32,
-    address: `London, Park Lane no. ${i}`,
-  });
-}
+// const rowSelection = {
+//   onChange: (selectedRowKeys, selectedRows) => {
+//   },
+//   getCheckboxProps: record => ({
+//     disabled: record.name === 'Disabled User', // Column configuration not to be checked
+//     name: record.name,
+//   }),
+// };
 
-class CustomSelection extends React.Component {
-  state = {
-    selectedRowKeys: [], // Check here to configure the CRM column
-  };
-  onSelectChange = (selectedRowKeys) => {
-    this.setState({selectedRowKeys});
-  };
+const CustomSelection = () => {
+  const [users,setUsers] =  useState([])
 
-  render() {
-    const {selectedRowKeys} = this.state;
-    const rowSelection = {
-      selectedRowKeys,
-      onChange: this.onSelectChange,
-      hideDefaultSelections: true,
-      selections: [{
-        key: 'all-data',
-        text: 'Select All Data',
-        onSelect: () => {
-          this.setState({
-            selectedRowKeys: [...Array(46).keys()], // 0...45
-          });
-        },
-      }, {
-        key: 'odd',
-        text: 'Select Odd Row',
-        onSelect: (changableRowKeys) => {
-          let newSelectedRowKeys = [];
-          newSelectedRowKeys = changableRowKeys.filter((key, index) => {
-            if (index % 2 !== 0) {
-              return false;
-            }
-            return true;
-          });
-          this.setState({selectedRowKeys: newSelectedRowKeys});
-        },
-      }, {
-        key: 'even',
-        text: 'Select Even Row',
-        onSelect: (changableRowKeys) => {
-          let newSelectedRowKeys = [];
-          newSelectedRowKeys = changableRowKeys.filter((key, index) => {
-            if (index % 2 !== 0) {
-              return true;
-            }
-            return false;
-          });
-          this.setState({selectedRowKeys: newSelectedRowKeys});
-        },
-      }],
-      onSelection: this.onSelection,
-    };
-    return (
-      <Card title="Custom Selection">
-        <Table className="gx-table-responsive" rowSelection={rowSelection} columns={columns} dataSource={data}/>
-      </Card>
-    );
-  }
-}
+    useEffect(()=>{
+      database.ref("users").once("value", users => {
+        let allUsers = [];
+        users.forEach(user => {
+
+          allUsers.push({...user.val(),id:user.key});
+        });
+        setUsers(()=>[...allUsers].filter(el=>el.usertype=="driver"))
+      })
+    },[])
+
+
+  return (
+    <Card title="Driver">
+      <Table className="gx-table-responsive" columns={columns} dataSource={users}/>
+      {/* <Table className="gx-table-responsive" rowSelection={rowSelection} columns={columns} dataSource={data}/> */}
+    </Card>
+  );
+};
 
 export default CustomSelection;

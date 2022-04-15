@@ -1,12 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import {Col, Row} from "antd";
-
-import Simple from "./Simple";
-import Selection from "./Selection";
-import Size from "./Size";
-import Title from "./Title";
-import ColRowSpan from "./ColRowSpan";
+import Admin from "./Admin";
 import { database } from "../../../../firebase/firebase";
 
 
@@ -32,20 +27,9 @@ const BasicTable = () => {
     <Row>
 
       <Col span={24}>
-        <Simple/>
+        <Admin/>
       </Col>
-      {/* <Col span={24}>
-        <Selection/>
-      </Col>
-      <Col span={24}>
-        <Size/>
-      </Col>
-      <Col span={24}>
-        <Title/>
-      </Col>
-      <Col span={24}>
-        <ColRowSpan/>
-      </Col> */}
+     
     </Row>
   );
 };

@@ -23,34 +23,7 @@ import { database } from "../../../../firebase/firebase";
   dataIndex: 'usertype',
   key: 'usertype',
 }]
- //[{
-//   title: 'Name',
-//   dataIndex: 'name',
-// }, {
-//   title: 'Age',
-//   dataIndex: 'age',
-// }, {
-//   title: 'Address',
-//   dataIndex: 'address',
-// }];
-// const data = [{
-//   key: '1',
-//   name: 'John Brown',
-//   age: 32,
-//   address: 'New York No. 1 Lake Park',
-// }, {
-//   key: '2',
-//   name: 'Jim Green',
-//   age: 42,
-//   address: 'London No. 1 Lake Park',
-// }, {
-//   key: '3',
-//   name: 'Joe Black',
-//   age: 32,
-//   address: 'Sidney No. 1 Lake Park',
-// }];
-
-const Size = () => {
+const Admin = () => {
   const [users,setUsers] =  useState([])
 
   useEffect(()=>{
@@ -69,7 +42,7 @@ const Size = () => {
   },[users])
   return (
     <>
-  
+
     <Card title="Admin">
       {/* <h4>Middle size table</h4> */}
       <Table className="gx-table-responsive" columns={columns} dataSource={users} size="middle"/>
@@ -80,4 +53,4 @@ const Size = () => {
   );
 };
 
-export default Size;
+export default Admin;

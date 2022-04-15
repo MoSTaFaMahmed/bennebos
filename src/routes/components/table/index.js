@@ -9,6 +9,8 @@ const Table = ({match}) => (
     <Redirect exact from={`${match.url}/`} to={`${match.url}/basic`}/>
     <Route path={`${match.url}/basic`} component={asyncComponent(() => import('./Basic'))}/>
     <Route path={`${match.url}/data`} component={asyncComponent(() => import('./Data'))}/>
+    <Route path={`${match.url}/admin`} component={asyncComponent(() => import('./Admin'))}/>
+    <Route path={`${match.url}/fleetadmin`} component={asyncComponent(() => import('./Fleetadmin'))}/>
   </Switch>
 );
 

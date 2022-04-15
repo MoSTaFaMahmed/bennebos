@@ -441,20 +441,33 @@ const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
               <SubMenu key="table" popupClassName={getNavStyleSubMenuClass(navStyle)}
                        title={
                          <span>
-                           <i className="icon icon-table"/>
-
-                             <span><IntlMessages id="sidebar.dataDisplay.table"/></span>
+                           <i className="icon icon-user"/>
+                             <span>Users</span>
 
                          </span>}>
                 <Menu.Item key="components/table/basic">
                   <Link to="/components/table/basic">
-                    <span><IntlMessages
-                      id="sidebar.view.basicTable"/></span></Link>
+                    <span>Rider</span></Link>
                 </Menu.Item>
                 <Menu.Item key="components/table/data">
                   <Link to="/components/table/data">
-                    <span><IntlMessages
-                      id="sidebar.view.dataTable"/></span></Link>
+                    <span>
+                      {/* <IntlMessages
+                      id="sidebar.view.dataTable"/> */}
+                      Driver
+                      </span></Link>
+                </Menu.Item>
+                <Menu.Item key="components/table/admin">
+                  <Link to="/components/table/admin">
+                    <span>
+                                    Admin
+                      </span></Link>
+                </Menu.Item>
+                <Menu.Item key="components/table/fleetadmin">
+                  <Link to="/components/table/fleetadmin">
+                    <span>
+                    Fleetadmin
+                      </span></Link>
                 </Menu.Item>
               </SubMenu>
 

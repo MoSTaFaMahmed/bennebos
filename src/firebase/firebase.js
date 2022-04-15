@@ -2,12 +2,14 @@ import firebase from "firebase";
 
 // Initialize Firebase
 const config = {
-  apiKey: "AIzaSyAz-GPfA-hN74oFh3XvXsF9vQrlE5xpU10",
-  authDomain: "wieldy-4f59c.firebaseapp.com",
-  databaseURL: "https://wieldy-4f59c.firebaseio.com",
-  projectId: "wieldy-4f59c",
-  storageBucket: "wieldy-4f59c.appspot.com",
-  messagingSenderId: "81949884261"
+  apiKey: "AIzaSyCxGEKeQ9Lq184gvCBnAFSfIicbcJklBRU",
+  authDomain: "bennebos-fine.firebaseapp.com",
+  databaseURL: "https://bennebos-fine-default-rtdb.firebaseio.com",
+  projectId: "bennebos-fine",
+  storageBucket: "bennebos-fine.appspot.com",
+  messagingSenderId: "122039250305",
+  appId: "1:122039250305:web:b7a0ae1fdb1544ed8c4c80",
+  measurementId: "G-08244FTBJK"
 };
 
 firebase.initializeApp(config);
@@ -28,3 +30,5 @@ export {
   facebookAuthProvider,
   twitterAuthProvider
 };
+
+
