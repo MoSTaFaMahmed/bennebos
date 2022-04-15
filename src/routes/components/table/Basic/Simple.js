@@ -1,8 +1,9 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import {Card, Divider, Table} from "antd";
+import {Card, Divider, Table,Button,  Popover} from "antd";
 import Icon from '@ant-design/icons';
 import { database } from "../../../../firebase/firebase";
+
 const columns = [
   {
     title: 'Name',
@@ -21,26 +22,58 @@ const columns = [
     key: 'email',
   },
   {
+    title:'phone',
+    dataIndex:'mobile',
+    key:'mobile'
+  },{
     title: 'Usertype',
     dataIndex: 'usertype',
     key: 'usertype',
-  }
+  },
 
-  // {
-  //   title: 'Action',
-  //   key: 'action',
-  //   render: (text, record) => (
-  //     <span>
-  //     <span className="gx-link">Action 一 {record.firstName}</span>
-  //     <Divider type="vertical"/>
-  //     <span className="gx-link">Delete</span>
-  //     <Divider type="vertical"/>
-  //     <span className="gx-link ant-dropdown-link">
-  //       More actions <Icon type="down"/>
-  //     </span>
-  //   </span>
-  //   ),
-  // }
+  {
+    title: 'Action',
+    key: 'action',
+    render: (text, record) => (
+      <>
+
+      <Popover
+        content={
+       <>
+        <div><b >FirstName</b> <Divider type="vertical"/>{record.firstName}</div>
+        <div><b>LastName</b><Divider type="vertical"/> {record.lastName}</div>
+        <div><b>Phone</b> <Divider type="vertical"/>{record.mobile}</div>
+        <div><b>Email</b> <Divider type="vertical"/>{record.email}</div>
+        <div><b>carType</b> <Divider type="vertical"/>{record.carType}</div>
+        <div><b>vehicleMake</b><Divider type="vertical"/> {record.vehicleMake}</div>
+         <div><b>vehicleModel</b><Divider type="vertical"/> {record.vehicleModel}</div>
+        <div><b>vehicleNumber</b><Divider type="vertical"/> {record.vehicleNumber}</div>
+               </>
+      }
+
+
+        title={<p>More Details About <Divider type="vertical"/> <b>{record.firstName}</b> </p>}
+
+        trigger="click"
+
+      >
+        <Button type="primary">More Info</Button>
+      </Popover>
+      <Divider type="vertical"/>
+            <span className="gx-link">Delete</span>
+      <Divider type="vertical"/>
+      {/* <span>
+      <span className="gx-link">View 一 {record.firstName}</span>
+      <Divider type="vertical"/>
+            <span className="gx-link">Delete</span>
+      <Divider type="vertical"/>
+      <span className="gx-link ant-dropdown-link">
+        More actions <Icon type="down"/>
+      </span>
+    </span> */}
+    </>
+    ),
+  }
 ];
 
 // const data = [
@@ -66,6 +99,17 @@ const columns = [
 
 
 const Simple = () => {
+  const [visible, setVisible] = useState(false);
+
+  const hide = () => {
+    setVisible(false)
+  };
+  const handleVisibleChange = (visible) => {
+    setVisible(visible);
+  };
+
+
+
   const [users,setUsers] =  useState([])
 
     useEffect(()=>{
@@ -75,7 +119,7 @@ const Simple = () => {
 
           allUsers.push({...user.val(),id:user.key});
         });
-        setUsers(()=>[...allUsers].filter(el=>el.usertype=="rider"))
+        setUsers(()=>[...allUsers].filter(el=>el.usertype=="rider"&&el.approved==true))
       })
     },[])
 
