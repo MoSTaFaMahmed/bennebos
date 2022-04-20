@@ -11,6 +11,7 @@ const Table = ({match}) => (
     <Route path={`${match.url}/data`} component={asyncComponent(() => import('./Data'))}/>
     <Route path={`${match.url}/admin`} component={asyncComponent(() => import('./Admin'))}/>
     <Route path={`${match.url}/fleetadmin`} component={asyncComponent(() => import('./Fleetadmin'))}/>
+    <Route path={`${match.url}/deactive`} component={asyncComponent(() => import('./Deactive'))}/>
   </Switch>
 );
 

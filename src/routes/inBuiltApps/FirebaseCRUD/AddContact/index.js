@@ -1,5 +1,5 @@
 import React from "react";
-import {Avatar, Input, Modal} from "antd";
+import {Input, Modal} from "antd";
 
 import IntlMessages from "util/IntlMessages";
 
@@ -7,72 +7,80 @@ class AddContact extends React.Component {
   constructor(props) {
     super(props);
 
-    const {id, thumb, name, email, phone, designation, starred, frequently} = props.contact;
+    const {id,  firstName,lastName, email, mobile,usertype } = props.contact;
     this.state = {
       id,
-      thumb,
-      name,
+      lastName,
+      firstName,
       email,
-      phone,
-      designation,
-      starred,
-      frequently
+      mobile,
+      usertype
+
     }
   }
 
   render() {
-    const {contactId, onSaveContact, onContactClose, open, contact} = this.props;
-    const {id, name, email, phone, designation, starred, frequently} = this.state;
-    let {thumb} = this.state;
-    if (!thumb) {
-      thumb = '/assets/images/placeholder.jpg';
-    }
+    const { onSaveContact, onContactClose, open, contact} = this.props;
+    const {id, firstName, email, mobile,lastName,usertype} = this.state;
+    // let {thumb} = this.state;
+    // if (!thumb) {
+    //   thumb = '/assets/images/placeholder.jpg';
+    // }
     return (
       <Modal
-        title={contact.name === '' ?
+        title={contact.firstName === '' ?
           <IntlMessages id="contact.addContact"/> :
           <IntlMessages id="contact.saveContact"/>}
         toggle={onContactClose} visible={open}
         closable={false}
         onOk={() => {
-          if (name === '')
+          if (firstName === '')
             return;
           onContactClose();
-          onSaveContact(contactId,
+          onSaveContact(id,
             {
               'id': id,
-              'name': name,
-              'thumb': thumb,
+              'firstName': firstName,
+              'lastName':lastName,
               'email': email,
-              'phone': phone,
-              'designation': designation,
-              'starred': starred,
-              'frequently': frequently
+              'mobile': mobile,
+              'usertype':usertype,
+              // 'thumb': thumb,
+
             });
           this.setState({
             'id': id + 1,
-            'name': '',
-            'thumb': '',
+            'firstName': '',
             'email': '',
-            'phone': '',
-            'designation': '',
+            'mobile': '',
+            'usertype':''
+            // 'thumb': '',
+
           })
 
         }}
         onCancel={onContactClose}>
 
         <div className="gx-modal-box-row">
-          <div className="gx-modal-box-avatar">
+          {/* <div className="gx-modal-box-avatar">
             <Avatar size="large" src={thumb}/>
-          </div>
+          </div> */}
 
           <div className="gx-modal-box-form-item">
             <div className="gx-form-group">
               <Input
                 required
-                placeholder="Name"
-                onChange={(event) => this.setState({name: event.target.value})}
-                defaultValue={name}
+                placeholder="First Name"
+                onChange={(event) => this.setState({firstName: event.target.value})}
+                defaultValue={firstName}
+                margin="none"/>
+            </div>
+            <div className="gx-form-group">
+              <Input
+                required
+                placeholder="Last Name"
+                onChange={(event) => this.setState({lastName: event.target.value})}
+                defaultValue={lastName}
                 margin="none"/>
             </div>
             <div className="gx-form-group">
@@ -84,20 +92,21 @@ class AddContact extends React.Component {
             </div>
             <div className="gx-form-group">
               <Input
-                placeholder="Phone"
-                onChange={(event) => this.setState({phone: event.target.value})}
-                value={phone}
+                placeholder="Mobile"
+                onChange={(event) => this.setState({mobile: event.target.value})}
+                value={mobile}
                 margin="normal"
               />
             </div>
             <div className="gx-form-group">
               <Input
-                placeholder="Designation"
-                onChange={(event) => this.setState({designation: event.target.value})}
-                value={designation}
-                autosize={{minRows: 2, maxRows: 6}}
-                margin="normal"/>
+                placeholder="usertype"
+                onChange={(event) => this.setState({usertype: event.target.value})}
+                value={usertype}
+                margin="normal"
+              />
             </div>
+
           </div>
         </div>
       </Modal>

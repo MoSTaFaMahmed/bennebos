@@ -43,46 +43,62 @@ class ContactCell extends React.Component {
   }
 
   render() {
-    const {contact, addFavourite, id, onSaveContact} = this.props;
+    const {contact, id, onSaveContact} = this.props;
     const {addContactState} = this.state;
-    const {name, thumb, email, phone, designation, starred} = contact;
+    const {firstName, lastName, email, mobile,usertype  } = contact;
+    const columns = [
+      {
+        title: 'Name',
+        dataIndex: 'firstName',
+        key: 'firstName',
+
+        render: text => <span className="gx-link">{text}</span>,
+      },
+      {
+        title: 'LastName',
+        dataIndex: 'lastName',
+        key: 'lastName',
+
+      },
+      {
+        title: 'Email',
+        dataIndex: 'email',
+        key: 'email',
+
+      },
+      {
+        title:'phone',
+        dataIndex:'mobile',
+        key:'mobile',
+
+      },{
+        title: 'Usertype',
+        dataIndex: 'usertype',
+        key: 'usertype',
+
+      },]
 
     return (
 
       <div className="gx-contact-item">
-        <div className="gx-module-list-icon">
-          <div className="gx-d-none gx-d-sm-flex" onClick={() => {
-            addFavourite(id, contact)
-          }}>
-            {starred ? <i className="gx-icon-btn icon icon-star"/> : <i className="gx-icon-btn icon icon-star-o"/>}
-          </div>
-          <div className="gx-ml-2 gx-d-none gx-d-sm-flex">
-            {(thumb === null || thumb === '') ?
-              <Avatar size="large">
-                {name.charAt(0).toUpperCase()}
-              </Avatar>
-              :
-              <Avatar size="large" alt={name} src={thumb}/>
-            }
-          </div>
-        </div>
+
 
         <div className="gx-module-list-info gx-contact-list-info">
           <div className="gx-module-contact-content">
             <p className="gx-mb-1">
-              <span className="gx-text-truncate gx-contact-name"> {name} </span>
+              <span className="gx-text-truncate gx-contact-name"> {firstName} </span>
               <span className="gx-toolbar-separator">&nbsp;</span>
-              <span className="gx-text-truncate gx-job-title">{designation}</span>
+              <span className="gx-text-truncate gx-contact-name"> {lastName} </span>
+              <span className="gx-text-truncate gx-contact-name"> {usertype} </span>
             </p>
 
             <div className="gx-text-muted">
             <span className="gx-email gx-d-inline-block gx-mr-2">
                 {email},
             </span>
-              <span className="gx-phone gx-d-inline-block">{phone}</span>
+              <span className="gx-phone gx-d-inline-block">{mobile}</span>
             </div>
           </div>
-
           <div className="gx-module-contact-right">
 
             <Dropdown overlay={this.menus()} placement="bottomRight" trigger={['click']}>

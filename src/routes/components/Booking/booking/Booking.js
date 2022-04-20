@@ -15,7 +15,6 @@ const Booking = () => {
       title:'Customer_name',
       dataIndex:'customer_name',
       key:'customer_name',
-
       width: 200,
 
     },
@@ -106,7 +105,7 @@ const Booking = () => {
 
   return (
     <Card title="Booking">
-      <Table className="gx-table-responsive " columns={columns} dataSource={users} scroll={{ x: 1300 }}/>
+      <Table className="gx-table-responsive " columns={columns} dataSource={users} />
     </Card>
   );
 };

@@ -16,19 +16,32 @@ let contactId = 723812738;
 const filterOptions = [
   {
     id: 1,
-    name: 'All contacts',
-    icon: 'all-contacts'
+    name: 'All Users',
+    icon: 'icon icon-user'
   }, {
     id: 2,
-    name: 'Frequently contacted',
-    icon: 'frequent'
+    name: 'Admin',
+    icon: 'icon icon-user'
 
   }, {
 
     id: 3,
-    name: 'Starred contacts',
-    icon: 'star'
-  }
+    name: 'Fleet Admin',
+    icon: 'icon icon-user'
+  },
+  {
+
+    id: 4,
+    name: 'Rider',
+    icon: 'icon icon-user'
+  },
+  {
+
+    id: 5,
+    name: 'Driver',
+    icon: 'icon icon-user'
+  },
+
 ];
 
 class FirebaseCRUD extends Component {
@@ -73,8 +86,8 @@ class FirebaseCRUD extends Component {
     return <div className="gx-module-side">
       <div className="gx-module-side-header">
         <div className="gx-module-logo">
-          <i className="icon icon-contacts gx-mr-4"/>
-          <span><IntlMessages id="chat.contacts"/></span>
+          <i className="icon icon-user gx-mr-4"/>
+          <span>Users</span>
         </div>
       </div>
 
@@ -84,7 +97,7 @@ class FirebaseCRUD extends Component {
             <Button className="gx-btn-block ant-btn" type="primary" aria-label="add"
                     onClick={this.onAddContact}>
               <i className="icon icon-add gx-mr-2"/>
-              <span>Add New Contact</span>
+              <span>Add New User</span>
             </Button>
           </div>
           <div className="gx-module-side-nav">
@@ -122,7 +135,7 @@ class FirebaseCRUD extends Component {
   };
   onFilterOptionSelect = (option) => {
     switch (option.name) {
-      case 'All contacts': {
+      case 'All Users': {
         this.setState({
           selectedSectionId: option.id,
           filterOption: option.name,
@@ -130,19 +143,35 @@ class FirebaseCRUD extends Component {
         });
         break;
       }
-      case 'Frequently contacted': {
+      case 'Admin': {
         this.setState({
           selectedSectionId: option.id,
           filterOption: option.name,
-          contactList: _.filter(this.state.allContact, (contact, key) => contact.frequently)
+          contactList: _.filter(this.state.allContact, (contact, key) => contact.usertype=="admin")
         });
         break;
       }
-      case 'Starred contacts': {
+      case 'Fleet Admin': {
         this.setState({
           selectedSectionId: option.id,
           filterOption: option.name,
-          contactList: _.filter(this.state.allContact, (contact) => contact.starred)
+          contactList: _.filter(this.state.allContact, (contact) => contact.usertype=="fleetadmin")
+        });
+        break;
+      }
+      case 'Rider': {
+        this.setState({
+          selectedSectionId: option.id,
+          filterOption: option.name,
+          contactList: _.filter(this.state.allContact, (contact) => contact.usertype=="rider")
+        });
+        break;
+      }
+      case 'Driver': {
+        this.setState({
+          selectedSectionId: option.id,
+          filterOption: option.name,
+          contactList: _.filter(this.state.allContact, (contact) => contact.usertype=="driver")
         });
         break;
       }
@@ -167,13 +196,13 @@ class FirebaseCRUD extends Component {
       this.setState({contactList: this.state.allContact});
     } else {
       const filterContact = _.filter(this.state.allContact, (contact) =>
-        contact.name.toLowerCase().indexOf(userName.toLowerCase()) > -1);
-      if (filterOption === 'All contacts') {
+        contact.firstName.toLowerCase().indexOf(userName.toLowerCase()) > -1);
+      if (filterOption === 'All Users') {
         this.setState({contactList: filterContact});
-      } else if (filterOption === 'Frequently contacted') {
+      } else if (filterOption === 'Admin') {
         this.setState({contactList: filterContact.filter((contact) => contact.frequently)});
 
-      } else if (filterOption === 'Starred contacts') {
+      } else if (filterOption === 'Fleet Admin') {
         this.setState({contactList: filterContact.filter((contact) => contact.starred)});
       }
     }
@@ -223,7 +252,7 @@ class FirebaseCRUD extends Component {
                      onClick={this.onToggleDrawer.bind(this)}/>
               </span>
 
-              <AppModuleHeader placeholder="Search contact" notification={false} apps={false}
+              <AppModuleHeader placeholder="Search Users" notification={false} apps={false}
                                user={this.state.user}
                                onChange={this.updateContactUser.bind(this)}
                                value={this.state.searchUser}/>
@@ -253,13 +282,15 @@ class FirebaseCRUD extends Component {
 
         <AddContact open={addContactState} contact={{
           'id': contactId++,
-          'name': '',
-          'thumb': '',
+          'firstName': '',
+          'lastName': '',
+        //  'thumb': '',
           'email': '',
-          'phone': '',
-          'designation': '',
-          'starred': false,
-          'frequently': false,
+         // 'phone': '',
+          //'designation': '',
+          'mobile':'',
+         // 'starred': false,
+          //'frequently': false,
         }} onSaveContact={this.onSaveContact}
                     onContactClose={this.onContactClose} onDeleteContact={this.onDeleteContact}/>
         <InfoView/>

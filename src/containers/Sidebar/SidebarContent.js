@@ -130,8 +130,7 @@ const SidebarContent = ({ sidebarCollapsed, setSidebarCollapsed }) => {
 
               <Menu.Item key="in-built-apps/firebase-crud">
                 <Link to="/in-built-apps/firebase-crud"><i
-                  className="icon icon-icon" /><span><IntlMessages
-                    id="sidebar.crud" /></span></Link>
+                  className="icon icon-user" /><span>Users</span></Link>
               </Menu.Item>
             </MenuItemGroup>
 
@@ -467,6 +466,12 @@ const SidebarContent = ({ sidebarCollapsed, setSidebarCollapsed }) => {
                   <Link to="/components/table/fleetadmin">
                     <span>
                       Fleetadmin
+                    </span></Link>
+                </Menu.Item>
+                <Menu.Item key="components/table/deactive">
+                  <Link to="/components/table/deactive">
+                    <span>
+                    Un Users
                     </span></Link>
                 </Menu.Item>
               </SubMenu>
