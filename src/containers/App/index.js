@@ -143,7 +143,7 @@ const App = () => {
       if (authUser === null) {
         history.push('/signin');
       } else if (initURL === '' || initURL === '/' || initURL === '/signin') {
-        history.push('/main/dashboard/crypto');
+        history.push('/components/table/basic');
       } else {
         history.push(initURL);
       }

@@ -1,43 +1,9 @@
 import React, {useEffect, useState } from 'react';
-import {Card, Divider,Modal, Table,Button,  Popover, Input, InputNumber, Popconfirm, Form, Typography } from 'antd';
+import {Card, Divider,Modal, Table,Button,Image,  Popover, Input, InputNumber, Popconfirm, Form, Typography } from 'antd';
 import { database } from "../../../../firebase/firebase";
 import SweetAlert from "react-bootstrap-sweetalert";
 import IntlMessages from "util/IntlMessages";
-// const EditableCell = ({
-//   editing,
-//   dataIndex,
-//   title,
-//   inputType,
-//   record,
-//   index,
-//   children,
-//   ...restProps
-// }) => {
-//   const inputNode = <Input />;
-//   return (
-//     <td {...restProps}>
-//       {editing ? (
-//         <Form.Item
-//           name={dataIndex}
-//           style={{
-//             margin: 0,
-//           }}
-//           rules={[
-//             {
-//               required: true,
-//               message: `Please Input ${title}!`,
-//             },
-//           ]}
-//         >
-//           {inputNode}
-//         </Form.Item>
-//       ) : (
-//         children
-//       )}
-//     </td>
-//   );
-// };
-
+//0ORSnfBxLUfMcIyoywKa24TRiJ22
 const CustomSelection = () => {
   const [users,setUsers] =  useState([])
 
@@ -47,9 +13,12 @@ const CustomSelection = () => {
       users.forEach(user => {
 
         allUsers.push({...user.val(),id:user.key});
+
       });
       setUsers(()=>[...allUsers].filter(el=>el.usertype=="driver"&&el.approved==true))
+
     })
+
   },[users])
   const[panState,setPanState]=useState(false);
   const[userInfo,setUserInfo]=useState({});
@@ -61,49 +30,7 @@ const CustomSelection = () => {
   const onCancelDelete = () => {
     setPanState(false)
     };
-    // const [form] = Form.useForm();
 
-    // const [editingKey, setEditingKey] = useState('');
-
-    // const isEditing = (record) => record.id === editingKey;
-
-    // const edit = (record) => {
-    //   form.setFieldsValue({
-    //     firstName: '',
-    //     lastName: '',
-    //     email: '',
-    //     usertype:'',
-    //     ...record,
-    //   });
-    //   setEditingKey(record.id);
-    // };
-
-    // const cancel = () => {
-    //   setEditingKey('');
-    // };
-
-    // const save = async (id) => {
-    //   try {
-    //     const row = await form.validateFields();
-    //     const newData = [...users];
-    //     const index = newData.findIndex((item) => id === item.id);
-
-    //     if (index > -1) {
-    //       const item = newData[index];
-    //       newData.splice(index, 1, { ...item, ...row });
-    //       setUsers(newData);
-    //       const user=database.ref(`users/${id}`)
-    //       await user.update({...users[index],...row})
-    //       setEditingKey('');
-    //     } else {
-    //       newData.push(row);
-    //       setUsers(newData);
-    //       setEditingKey('');
-    //     }
-    //   } catch (errInfo) {
-    //     console.log('Validate Failed:', errInfo);
-    //   }
-    // };
 
     const columns = [{
       title: 'First Name',
@@ -120,47 +47,45 @@ const CustomSelection = () => {
 
 
     },
+    // {
+    //   title: 'Email',
+    //   dataIndex: 'email',
+    //   key: 'email',
+
+
+    // },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
+      title: 'License Image',
+      key: 'licenseImage',
 
 
-    },
-    {
-      title: 'Usertype',
-      dataIndex: 'usertype',
-      key: 'usertype',
+      render: (text, record) => (
+        <>
 
+        <Image
+      width={100}
+      src={record.licenseImage}
+    />
+       </>
+      ),
     },
     // {
-    //   title: 'operation',
-    //   dataIndex: 'operation',
-    //   render: (_, record) => {
+    //   title: 'licenceIdImage',
+    //   key: 'licenceIdImage',
+    //   render: (text, record) => (
+    //     <>
+    //    <>{record}</>
 
-    //     const editable = isEditing(record);
-    //     return editable ? (
-    //       <span>
-    //         <Typography.Link
-    //           onClick={() => save(record.id)}
-    //           style={{
-    //             marginRight: 8,
-    //           }}
-    //         >
-    //           Save
-    //         </Typography.Link>
-    //         <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-    //           <a>Cancel</a>
-    //         </Popconfirm>
-    //       </span>
-    //     ) : (
-    //       <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
-    //         <Button type='primary'
-    //             ><IntlMessages  id="Edit"/></Button>
-    //       </Typography.Link>
-    //     );
-    //   },
+    //    </>
+    //   ),
     // },
+    // {
+    //   title: 'Usertype',
+    //   dataIndex: 'usertype',
+    //   key: 'usertype',
+
+    // },
+
     {
       title: 'Action',
       key: 'action',
@@ -174,28 +99,6 @@ const CustomSelection = () => {
         <Button  type="primary" onClick={()=>showModal('edit',record)}><IntlMessages id="Edit"/></Button>
         <Button  type="primary" onClick={()=>showModal('view',record)}><IntlMessages id="View"/></Button>
 
-        {/* <Popover
-          content={
-         <>
-          <div><b >FirstName</b> <Divider type="vertical"/>{record.firstName}</div>
-          <div><b>LastName</b><Divider type="vertical"/> {record.lastName}</div>
-          <div><b>Phone</b> <Divider type="vertical"/>{record.mobile}</div>
-          <div><b>Email</b> <Divider type="vertical"/>{record.email}</div>
-          <div><b>carType</b> <Divider type="vertical"/>{record.carType}</div>
-          <div><b>vehicleMake</b><Divider type="vertical"/> {record.vehicleMake}</div>
-           <div><b>vehicleModel</b><Divider type="vertical"/> {record.vehicleModel}</div>
-          <div><b>vehicleNumber</b><Divider type="vertical"/> {record.vehicleNumber}</div>
-                 </>
-        }
-
-
-          title={<p>More Details About <Divider type="vertical"/> <b>{record.firstName}</b> </p>}
-
-          trigger="click"
-
-        >
-          <Button type="primary">More Info</Button>
-        </Popover> */}
         <Divider type="vertical"/>
         <Button  type="danger" onClick={() => {
                   setPanState(true)
@@ -216,36 +119,12 @@ const CustomSelection = () => {
         >
           <IntlMessages id="Are You Sure ?"/>
         </SweetAlert>
-        {/* <span>
-        <span className="gx-link">View 一 {record.firstName}</span>
-        <Divider type="vertical"/>
-              <span className="gx-link">Delete</span>
-        <Divider type="vertical"/>
-        <span className="gx-link ant-dropdown-link">
-          More actions <Icon type="down"/>
-        </span>
-      </span> */}
+
       </>
       ),
     }
   ];
 
-  // const mergedColumns = columns.map((col) => {
-  //   if (!col.editable) {
-  //     return col;
-  //   }
-
-  //   return {
-  //     ...col,
-  //     onCell: (record) => ({
-  //       record,
-  //       inputType: col.dataIndex ===  'text',
-  //       dataIndex: col.dataIndex,
-  //       title: col.title,
-  //       editing: isEditing(record),
-  //     }),
-  //   };
-  // });
   const [isModalVisible, setIsModalVisible] = useState(false);
   const[mood,setMood]=useState('view');
   const[record,setRecord]=useState({})
@@ -263,7 +142,27 @@ const CustomSelection = () => {
         firstName:'',
         email:"",
         mobile:"",
-        usertype:'',
+        usertype:'driver',
+        createdAt:Date(),
+        bankAccount:'',
+        bankCode:'',
+        bankName:'',
+        carType:'',
+        driverActiveStatus:'',
+        other_info:'',
+        pushToken:'',
+        queue:'',
+        referralId:'',
+        signupViaReferral:'',
+        userPlatform:'',
+        vehicleMake:'',
+        vehicleModel:'',
+        vehicleNumber:'',
+        walletBalance:'',
+        licenceIdImage:{
+          _U:'',
+          _V:'',
+         },
         approved:false
       })
     }
@@ -292,29 +191,26 @@ const CustomSelection = () => {
   return (
     //
     <Card title="Driver">
-        <Button  type="primary" onClick={()=>showModal('add',record)}><IntlMessages id="Add"/></Button>
+        <Button  type="primary" onClick={()=>showModal('add',record)}><IntlMessages id="Add New User"/></Button>
 
-    {/* <Form form={form} component={false}> */}
-    {/* components={{
-          body: {
-            cell: EditableCell,
-          },
-        }}
-        bordered
-         rowClassName="editable-row"
-        pagination={{
-          onChange: cancel,
-        }}
-         scroll={{ x: 1300 }}
-        columns={mergedColumns}
-        */}
       <Table className="gx-table-responsive " columns={columns} dataSource={users} />
 
 
-      <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+      <Modal title={<h1>{record.firstName} Driver</h1>} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
           <div className="gx-modal-box-form-item">
+
+          <div className="gx-form-group">
+            Created At:<Input
+              required
+              disabled={mood=='view'}
+                placeholder="Created At"
+                onChange={(event) => setRecord({...record,createdAt:event.target.value})}
+                 value={record.createdAt}
+                margin="normal"
+              />
+            </div>
             <div className="gx-form-group">
-              <Input
+            First Name:<Input
                 required
                 disabled={mood=='view'}
                 placeholder="First Name"
@@ -324,7 +220,7 @@ const CustomSelection = () => {
 
             </div>
             <div className="gx-form-group">
-              <Input
+            Last Name:<Input
                 required
                 disabled={mood=='view'}
                 placeholder="Last Name"
@@ -333,7 +229,7 @@ const CustomSelection = () => {
                 margin="none"/>
             </div>
             <div className="gx-form-group">
-              <Input
+            Email:<Input
               required
                 placeholder="Email"
                 disabled={mood=='view'}
@@ -342,7 +238,7 @@ const CustomSelection = () => {
                 margin="normal"/>
             </div>
             <div className="gx-form-group">
-              <Input
+            Mobile:<Input
               disabled={mood=='view'}
                 placeholder="Mobile"
                 onChange={(event) => setRecord({...record,mobile:event.target.value})}
@@ -350,23 +246,214 @@ const CustomSelection = () => {
                 margin="normal"
               />
             </div>
+
             <div className="gx-form-group">
-              <Input
+            UserType :<select onChange={(event) => setRecord({...record,usertype:event.target.value})}
+                     value={record.usertype} disabled={mood=='view'} style={{width:'100%',height:'30px'}} >
+                    <option value="rider" >rider</option>
+                    <option value="driver" selected>driver</option>
+                    <option value="admin">admin</option>
+                    <option value="fleetadmin">fleetadmin</option>
+                    </select>
+            {/* UserType:<Input
               required
               disabled={mood=='view'}
                 placeholder="usertype"
                 onChange={(event) => setRecord({...record,usertype:event.target.value})}
                  value={record.usertype}
                 margin="normal"
+              /> */}
+            </div>
+            <div className="gx-form-group">
+            Bank Account:<Input
+              required
+              disabled={mood=='view'}
+                placeholder="Bank Account"
+                onChange={(event) => setRecord({...record,bankAccount:event.target.value})}
+                 value={record.bankAccount}
+                margin="normal"
               />
             </div>
+            <div className="gx-form-group">
+            Bank Code<Input
+              required
+              disabled={mood=='view'}
+                placeholder="Bank Code"
+                onChange={(event) => setRecord({...record,bankCode:event.target.value})}
+                 value={record.bankCode}
+                margin="normal"
+              />
+            </div>
+            <div className="gx-form-group">
+            Bank Name<Input
+              required
+              disabled={mood=='view'}
+                placeholder="Bank Name"
+                onChange={(event) => setRecord({...record,bankName:event.target.value})}
+                 value={record.bankName}
+                margin="normal"
+              />
+            </div>
+            <div className="gx-form-group">
+            Car Type<Input
+              required
+              disabled={mood=='view'}
+                placeholder="Car Type"
+                onChange={(event) => setRecord({...record,carType:event.target.value})}
+                 value={record.carType}
+                margin="normal"
+              />
+            </div>
+            <div className="gx-form-group">
+            License Image<Input
+              required
+              disabled={mood=='view'}
+                placeholder="License Image"
+                onChange={(event) => setRecord({...record,licenseImage:event.target.value})}
+                 value={record.licenseImage}
+                margin="normal"
+              />
+            </div>
+            {mood=='view'?
+           <>
+           <div className="gx-form-group">
 
+            <Image
+          width={100}
+          src={record.licenseImage}
+         />
+           </div>
+
+           </>:''
+
+         }
+            <div className="gx-form-group">
+            Driver ActiveStatus :<select  onChange={(event) => setRecord({...record,driverActiveStatus:event.target.value})}
+                        value={record.driverActiveStatus} disabled={mood=='view'} style={{width:'100%',height:'30px'}} >
+                    <option value={true} selected >Yes</option>
+                    <option value={false} >No</option>
+
+                    </select>
+            {/* Driver ActiveStatus<Input
+              required
+              disabled={mood=='view'}
+                placeholder="Driver ActiveStatus"
+                onChange={(event) => setRecord({...record,driverActiveStatus:event.target.value})}
+                 value={record.driverActiveStatus}
+                margin="normal"
+              /> */}
+            </div>
+            <div className="gx-form-group">
+            Other Info<Input
+              required
+              disabled={mood=='view'}
+                placeholder="Other Info"
+                onChange={(event) => setRecord({...record,other_info:event.target.value})}
+                 value={record.other_info}
+                margin="normal"
+              />
+            </div>
+            <div className="gx-form-group">
+            Push Token: <Input
+              required
+              disabled={mood=='view'}
+                placeholder="Push Token"
+                onChange={(event) => setRecord({...record,pushToken:event.target.value})}
+                 value={record.pushToken}
+                margin="normal"
+              />
+            </div>
+            <div className="gx-form-group">
+            Queue: <select  onChange={(event) => setRecord({...record,queue:event.target.value})}
+                 value={record.queue} disabled={mood=='view'} style={{width:'100%',height:'30px'}} >
+                    <option value={true} selected >Yes</option>
+                    <option value={false} >No</option>
+
+                    </select>
+            </div>
+            <div className="gx-form-group">
+            Referral Id: <Input
+              required
+              disabled={mood=='view'}
+                placeholder="Referral Id: "
+                onChange={(event) => setRecord({...record,referralId:event.target.value})}
+                 value={record.referralId}
+                margin="normal"
+              />
+            </div>
+            <div className="gx-form-group">
+            SignupVia Referral: <Input
+              required
+              disabled={mood=='view'}
+                placeholder="SignupVia Referral: "
+                onChange={(event) => setRecord({...record,signupViaReferral:event.target.value})}
+                 value={record.signupViaReferral}
+                margin="normal"
+              />
+            </div>
+            <div className="gx-form-group">
+            User Platform: <Input
+              required
+              disabled={mood=='view'}
+                placeholder="User Platform: "
+                onChange={(event) => setRecord({...record,userPlatform:event.target.value})}
+                 value={record.userPlatform}
+                margin="normal"
+              />
+            </div>
+            <div className="gx-form-group">
+            Vehicle Make: <Input
+              required
+              disabled={mood=='view'}
+                placeholder="Vehicle Make: "
+                onChange={(event) => setRecord({...record,vehicleMake:event.target.value})}
+                 value={record.vehicleMake}
+                margin="normal"
+              />
+            </div>
+            <div className="gx-form-group">
+            Vehicle Model: <Input
+              required
+              disabled={mood=='view'}
+                placeholder="Vehicle Model: "
+                onChange={(event) => setRecord({...record,vehicleModel:event.target.value})}
+                 value={record.vehicleModel}
+                margin="normal"
+              />
+            </div>
+            <div className="gx-form-group">
+            Vehicle Number: <Input
+              required
+              disabled={mood=='view'}
+                placeholder="Vehicle Number: "
+                onChange={(event) => setRecord({...record,vehicleNumber:event.target.value})}
+                 value={record.vehicleNumber}
+                margin="normal"
+              />
+            </div>
+            <div className="gx-form-group">
+            Wallet Balance: <Input
+              required
+              disabled={mood=='view'}
+                placeholder="Wallet Balance: "
+                onChange={(event) => setRecord({...record,walletBalance:event.target.value})}
+                 value={record.walletBalance}
+                margin="normal"
+              />
+            </div>
+            {/* <div className="gx-form-group">
+            licenseImage U: <Input
+              required
+              disabled={mood=='view'}
+                placeholder="licenseImage U: "
+                onChange={(event) => setRecord({...record,licenseImage:event.target.value})}
+                 value={record.licenseImage._U}
+                margin="normal"
+              />
+            </div> */}
           </div>
       </Modal>
-    {/* </Form> */}
-{/*
-      <Table className="gx-table-responsive" columns={columns} dataSource={users} /> */}
-      {/* <Table className="gx-table-responsive" rowSelection={rowSelection} columns={columns} dataSource={data}/> */}
+
     </Card>
   );
 };

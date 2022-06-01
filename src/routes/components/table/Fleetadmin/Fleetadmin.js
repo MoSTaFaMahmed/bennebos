@@ -7,7 +7,7 @@ import IntlMessages from "util/IntlMessages";
 
 const Fleetadmin = () => {
   const [users,setUsers] =  useState([])
-
+///-N-06aXpDA5C957xiRql
   useEffect(()=>{
     database.ref("users").once("value", users => {
       let allUsers = [];
@@ -17,6 +17,7 @@ const Fleetadmin = () => {
       });
       setUsers(()=>[...allUsers].filter(el=>el.usertype=="fleetadmin"&&el.approved==true))
     })
+
   },[users])
   const[panState,setPanState]=useState(false);
   const[userInfo,setUserInfo]=useState({});
@@ -102,11 +103,14 @@ const Fleetadmin = () => {
     }else{
       setRecord({
         //id:users[users.length-1].id+1,
+        createdAt:Date(),
         lastName:'',
         firstName:'',
         email:"",
         mobile:"",
-        usertype:'',
+        usertype:'fleetadmin',
+        createdByAdmin:'',
+        referralId:'',
         approved:false
       })
     }
@@ -135,16 +139,26 @@ const Fleetadmin = () => {
   return (
 
     <Card title="Fleet Admin">
-        <Button  type="primary" onClick={()=>showModal('add',record)}><IntlMessages id="Add"/></Button>
+        <Button  type="primary" onClick={()=>showModal('add',record)}><IntlMessages id="Add New User"/></Button>
 
 
       <Table className="gx-table-responsive " columns={columns} dataSource={users} />
 
 
-      <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+      <Modal title={<h1>{record.firstName} Fleet Admin</h1>} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
           <div className="gx-modal-box-form-item">
+          <div className="gx-form-group">
+                  Created At:<Input
+              required
+              disabled={mood=='view'}
+                placeholder="Created At"
+                onChange={(event) => setRecord({...record,createdAt:event.target.value})}
+                 value={record.createdAt}
+                margin="normal"
+              />
+            </div>
             <div className="gx-form-group">
-              <Input
+            First Name: <Input
                 required
                 disabled={mood=='view'}
                 placeholder="First Name"
@@ -154,7 +168,7 @@ const Fleetadmin = () => {
 
             </div>
             <div className="gx-form-group">
-              <Input
+            Last Name:<Input
                 required
                 disabled={mood=='view'}
                 placeholder="Last Name"
@@ -163,7 +177,7 @@ const Fleetadmin = () => {
                 margin="none"/>
             </div>
             <div className="gx-form-group">
-              <Input
+            Email:<Input
               required
                 placeholder="Email"
                 disabled={mood=='view'}
@@ -172,7 +186,7 @@ const Fleetadmin = () => {
                 margin="normal"/>
             </div>
             <div className="gx-form-group">
-              <Input
+            Mobile:<Input
               disabled={mood=='view'}
                 placeholder="Mobile"
                 onChange={(event) => setRecord({...record,mobile:event.target.value})}
@@ -181,12 +195,37 @@ const Fleetadmin = () => {
               />
             </div>
             <div className="gx-form-group">
-              <Input
+            UserType :<select onChange={(event) => setRecord({...record,usertype:event.target.value})}
+                     value={record.usertype} disabled={mood=='view'} style={{width:'100%',height:'30px'}} >
+                    <option value="rider" >rider</option>
+                    <option value="driver" selected>driver</option>
+                    <option value="admin">admin</option>
+                    <option value="fleetadmin" selected>fleetadmin</option>
+                    </select>
+            </div>
+            <div className="gx-form-group">
+            CreatedBy Admin:<select   onChange={(event) => setRecord({...record,createdByAdmin:event.target.value})}
+                 value={record.createdByAdmin} disabled={mood=='view'} style={{width:'100%',height:'30px'}} >
+                    <option value={true} selected >Yes</option>
+                    <option value={false} >No</option>
+
+                    </select>
+            {/* CreatedBy Admin:<Input
               required
               disabled={mood=='view'}
-                placeholder="usertype"
-                onChange={(event) => setRecord({...record,usertype:event.target.value})}
-                 value={record.usertype}
+                placeholder="createdBy Admin"
+                onChange={(event) => setRecord({...record,createdByAdmin:event.target.value})}
+                 value={record.createdByAdmin}
+                margin="normal"
+              /> */}
+            </div>
+            <div className="gx-form-group">
+            Referral Id:<Input
+              required
+              disabled={mood=='view'}
+                placeholder="Referral Id"
+                onChange={(event) => setRecord({...record,referralId:event.target.value})}
+                 value={record.referralId}
                 margin="normal"
               />
             </div>

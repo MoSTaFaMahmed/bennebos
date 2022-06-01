@@ -1,13 +1,13 @@
 import React, {useEffect, useState } from 'react';
-import {Card, Divider,Modal, Table,Button,  Popover, Input, InputNumber, Popconfirm, Form, Typography } from 'antd';
+import {Card, Divider,Modal,DatePicker, Table,Button, Select, Popover, Input, InputNumber, Popconfirm, Form, Typography } from 'antd';
 import { database } from "../../../../firebase/firebase";
 import SweetAlert from "react-bootstrap-sweetalert";
 import IntlMessages from "util/IntlMessages";
 
 
 const Simple = () => {
+  const [select,setSelect]=useState();
   const [users,setUsers] =  useState([])
-
   useEffect(()=>{
     database.ref("users").once("value", users => {
       let allUsers = [];
@@ -106,7 +106,11 @@ const Simple = () => {
         firstName:'',
         email:"",
         mobile:"",
-        usertype:'',
+        usertype:'rider',
+        createdAt:Date(),
+        walletBalance:'',
+        signupViaReferral:'',
+        referralId:'',
         approved:false
       })
     }
@@ -135,16 +139,28 @@ const Simple = () => {
   return (
 
     <Card title="Rider">
-        <Button  type="primary" onClick={()=>showModal('add',record)}><IntlMessages id="Add"/></Button>
+        <Button  type="primary" onClick={()=>showModal('add',record)}><IntlMessages id="Add New User"/></Button>
 
 
       <Table className="gx-table-responsive " columns={columns} dataSource={users} />
 
 
-      <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+      <Modal title={<h1>{record.firstName} Rider</h1>} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
           <div className="gx-modal-box-form-item">
+          <div className="gx-form-group">
+          {/* <DatePicker required disabled={mood=='view'} onChange={(event) => setRecord({...record,createdAt:event.target.value})}
+            value={record.createdAt}   /> */}
+            Created At:<Input
+              required
+              disabled={mood=='view'}
+                placeholder="Created At"
+                onChange={(event) => setRecord({...record,createdAt:event.target.value})}
+                 value={record.createdAt}
+                margin="normal"
+              />
+            </div>
             <div className="gx-form-group">
-              <Input
+            First Name:<Input
                 required
                 disabled={mood=='view'}
                 placeholder="First Name"
@@ -154,7 +170,7 @@ const Simple = () => {
 
             </div>
             <div className="gx-form-group">
-              <Input
+            Last Name:<Input
                 required
                 disabled={mood=='view'}
                 placeholder="Last Name"
@@ -163,7 +179,7 @@ const Simple = () => {
                 margin="none"/>
             </div>
             <div className="gx-form-group">
-              <Input
+            Email:<Input
               required
                 placeholder="Email"
                 disabled={mood=='view'}
@@ -172,7 +188,7 @@ const Simple = () => {
                 margin="normal"/>
             </div>
             <div className="gx-form-group">
-              <Input
+            Mobile:<Input
               disabled={mood=='view'}
                 placeholder="Mobile"
                 onChange={(event) => setRecord({...record,mobile:event.target.value})}
@@ -181,12 +197,49 @@ const Simple = () => {
               />
             </div>
             <div className="gx-form-group">
-              <Input
+            UserType :<select onChange={(event) => setRecord({...record,usertype:event.target.value})}
+                     value={record.usertype} disabled={mood=='view'} style={{width:'100%',height:'30px'}} >
+                    <option value="rider" selected>rider</option>
+                    <option value="driver">driver</option>
+                    <option value="admin">admin</option>
+                    <option value="fleetadmin">fleetadmin</option>
+                    </select>
+            {/* UserType:<Input
               required
               disabled={mood=='view'}
                 placeholder="usertype"
                 onChange={(event) => setRecord({...record,usertype:event.target.value})}
                  value={record.usertype}
+                margin="normal"
+              /> */}
+            </div>
+            <div className="gx-form-group">
+            Wallet Balance:<Input
+              required
+              disabled={mood=='view'}
+                placeholder="Wallet Balance"
+                onChange={(event) => setRecord({...record,walletBalance:event.target.value})}
+                 value={record.walletBalance}
+                margin="normal"
+              />
+            </div>
+            <div className="gx-form-group">
+            SignupVia Referral:<Input
+              required
+              disabled={mood=='view'}
+                placeholder="SignupVia Referral"
+                onChange={(event) => setRecord({...record,signupViaReferral:event.target.value})}
+                 value={record.signupViaReferral}
+                margin="normal"
+              />
+            </div>
+            <div className="gx-form-group">
+            Referral Id:<Input
+              required
+              disabled={mood=='view'}
+                placeholder="Referral Id"
+                onChange={(event) => setRecord({...record,referralId:event.target.value})}
+                 value={record.referralId}
                 margin="normal"
               />
             </div>

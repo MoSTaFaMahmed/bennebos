@@ -205,7 +205,7 @@ const Deactive = () => {
                     confirmBtnText={<IntlMessages id="Confirm"/>}
                     confirmBtnBsStyle="danger"
                     cancelBtnBsStyle="default"
-                    title={<h1>DeActive {userInfo.firstName}!</h1>}
+                    title={<h1>Active {userInfo.firstName}!</h1>}
                     onConfirm={deleteFile}
                     onCancel={onCancelDelete}
         >
